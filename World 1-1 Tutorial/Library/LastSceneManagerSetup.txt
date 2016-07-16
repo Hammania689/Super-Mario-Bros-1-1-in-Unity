@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Scenes/World 1-1 Tutorial.unity
+  isLoaded: 1
+  isActive: 1
