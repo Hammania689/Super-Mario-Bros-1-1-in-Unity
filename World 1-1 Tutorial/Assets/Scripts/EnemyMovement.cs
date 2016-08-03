@@ -30,25 +30,21 @@ public class EnemyMovement : MonoBehaviour
         //Casting a horizontal line that moves with the enemy object
         Vector2 LineCastPos = (myTrans.position.toVector2() - myTrans.right.toVector2() * myWidth + Vector2.up * myHeight * 1.2f);
 
-        //Visual Representation of the line being casted
+        // Visual Representation of the line we just created
         Debug.DrawLine(LineCastPos, LineCastPos - myTrans.right.toVector2() * 1.2f);
 
-        // A flag to determine when the enemy needs to turn around
+        // A Boolean Flag that determines whether or not the enemy's line is blocked
         bool isBlocked = Physics2D.Linecast(LineCastPos, LineCastPos - myTrans.right.toVector2() * 1.2f, EnemyMask);
-
-        if(isBlocked)  // if the enemy hits something within the established critea 
+        
+        if(isBlocked)
         {
-            //Then the enemy is turned in the oppositte direction
-            Vector2 curRot = myTrans.eulerAngles;
-            curRot.y += 180;
-            myTrans.eulerAngles = curRot;
-
+           Vector2 currRot = myTrans.eulerAngles; // Place holder variable set equal to rotational values
+           currRot.y += 180; //Place holder variable's y axis is added on to
+           myTrans.eulerAngles = currRot; // Rotational values are set equal to the Place holder variables
         }
 
-        //Define a new vector for our enemy's directional movement
-        Vector2 myVel = rb.velocity; 
-        myVel.x = -myTrans.right.x * speed;
-        rb.velocity = myVel;
-       
+        Vector2 myVel = rb.velocity; // Place holder variable defined and set equal to Rigidbody's velocity values
+        myVel.x = -myTrans.right.x * speed; // Place holder variable is manipulated
+        rb.velocity = myVel; // The Rigidbody's velocity is then set equal to the place holder
     }
 }
