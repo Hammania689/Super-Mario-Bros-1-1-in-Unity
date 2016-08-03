@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2393766}
   - 61: {fileID: 6183468}
   - 114: {fileID: 11408768}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: FireFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,11 +95,7 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
+    m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 198290}
