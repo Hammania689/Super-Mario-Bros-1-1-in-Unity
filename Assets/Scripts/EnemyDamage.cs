@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyDamage : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject ShellPrefab;
 
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -18,7 +18,7 @@ public class EnemyDamage : MonoBehaviour
                     PlayerController.PlayerState = 1;
                     break;
                 default:
-                    Destroy(player);
+                    Destroy(col.gameObject);
                     break;
             }
         }
@@ -28,8 +28,9 @@ public class EnemyDamage : MonoBehaviour
     {
         if(col.gameObject.tag == "Player")
         {
-            print("Oh noooos, enemy messed up!");
+            //On the instance of trigger collision a shell prefab is instantiated and Koopa Troopa is Destroyed
             Destroy(this.gameObject);
+            Object Shell = Instantiate(ShellPrefab, transform.position, transform.rotation);
         }
     }
 
