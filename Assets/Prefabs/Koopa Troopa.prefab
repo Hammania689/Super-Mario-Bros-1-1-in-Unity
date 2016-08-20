@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433a6fa9874a8ff4a9e9ef951f3beda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  ShellPrefab: {fileID: 150652, guid: 9edbbafe0c7f01e4998bb0490ca7d164, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

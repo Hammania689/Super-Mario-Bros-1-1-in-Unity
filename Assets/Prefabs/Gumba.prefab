@@ -293,9 +293,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: -0.09811497, y: 0.36691514}
+  m_Offset: {x: -0.06, y: 0.36691514}
   serializedVersion: 2
-  m_Size: {x: 1.3367872, y: 0.2661699}
+  m_Size: {x: 1.43, y: 0.2661699}
 --- !u!114 &11417800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433a6fa9874a8ff4a9e9ef951f3beda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  ShellPrefab: {fileID: 0}
 --- !u!114 &11419022
 MonoBehaviour:
   m_ObjectHideFlags: 1
