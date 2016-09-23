@@ -29,6 +29,7 @@ public class KoopaShellScript : MonoBehaviour
         mySprite = this.gameObject.GetComponent<SpriteRenderer>();
         myWidth = mySprite.bounds.extents.x;
         myHeight = mySprite.bounds.extents.y;
+        Moving = false;
     }
 
     void Update()
@@ -41,25 +42,25 @@ public class KoopaShellScript : MonoBehaviour
         Physics2D.IgnoreLayerCollision(9, 11);
 
         //Casting a horizontal line that moves with the enemy object
-        Vector2 LineCastPos = (myTrans.position.toVector2() - myTrans.right.toVector2() * myWidth + Vector2.up * myHeight * 1.2f);
+        Vector2 LineCastPos = (myTrans.position.toVector2() - myTrans.right.toVector2() * myWidth + Vector2.up * myHeight * .67f);
 
         // Visual Representation of the line we just created
-        Debug.DrawLine(LineCastPos, LineCastPos - myTrans.right.toVector2() * 1.2f);
-        Debug.DrawLine(LineCastPos, LineCastPos + myTrans.right.toVector2() * 1.2f);
+        Debug.DrawLine(LineCastPos, LineCastPos - myTrans.right.toVector2() * .67f);
+        Debug.DrawLine(LineCastPos, LineCastPos + myTrans.right.toVector2() * .67f);
 
         //These flags will help us change direction and handle any 2D collision that the RayCast can not
-        leftBlocked = Physics2D.Linecast(LineCastPos, LineCastPos - Vector2.right * 1.2f);
-        rightBlocked = Physics2D.Linecast(LineCastPos, LineCastPos + Vector2.right * 1.2f);
+        leftBlocked = Physics2D.Linecast(LineCastPos, LineCastPos - Vector2.right * .67f);
+        rightBlocked = Physics2D.Linecast(LineCastPos, LineCastPos + Vector2.right * .67f);
 
         /// <summary>
         /// This section will ultilize 3D Physics until otherwise commented
         /// </summary>
         // A ray is an infinite line starting at an origin and going in some direction
         // This ray's origin is in the center of the shell and is being casted in the right direction
-        rRay = new Ray(rCast.position.toVector2() - rCast.right.toVector2() * myWidth + Vector2.up * 
+        rRay = new Ray(rCast.position.toVector2() - rCast.right.toVector2() * myWidth + Vector2.up *
             myHeight, myTrans.TransformDirection(Vector2.right));
         lRay = new Ray(rCast.position.toVector2() + rCast.right.toVector2() * myWidth + Vector2.up *
-            myHeight, myTrans.TransformDirection(Vector2.right));
+            myHeight, myTrans.TransformDirection(Vector2.left));
 
         // This gives the right a ray a visual representation in our scene
         Debug.DrawRay(rCast.position.toVector2() - rCast.right.toVector2() * myWidth + Vector2.up * myHeight, rRay.direction);
@@ -76,10 +77,76 @@ public class KoopaShellScript : MonoBehaviour
     {
         if (shellRight)
             if (shellLeft == false)
-            { Debug.Log("I have been hit on the left side by " + hitinfo); }
+            {
+                // If shell right boolean flag returns then the shell moves to the right with a constant force
+                cf.relativeForce = new Vector2(30, 0);
+                Debug.Log("I have been hit on the left side by " + hitinfo);
+            }
 
         if (shellLeft)
             if (shellRight == false)
-            { Debug.Log("I have been hit on the right side by " + hitinfo); }
+            {
+                // If shell left boolean flag returns then the shell moves to the left with a constant force
+                cf.relativeForce = new Vector2(-30, 0);
+                Debug.Log("I have been hit on the right side by " + hitinfo);
+            }
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Ground")
+        {
+            // if collision between the shell and enviromental prefabs happen
+            // then the shell is turned around accordingly
+            Debug.Log("This Koopa Shell has been flipped in the Y rotaional axis");
+            Vector3 curRot = myTrans.eulerAngles;
+            curRot.y += 180;
+            myTrans.eulerAngles = curRot;
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////
+    ///////////////////// 3D COLLISION ENDS //////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////
+    ///////////////////// 2D COLLISION BEGINS/////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    IEnumerator MoveShell(Collision2D coll) //Courotine for 2D Collision 
+    {
+        if(coll.gameObject.tag == "Player")
+            if(leftBlocked == false && rightBlocked == false)
+            {
+                yield return new WaitForFixedUpdate();
+                yield return Moving = true;
+            }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (leftBlocked || rightBlocked)
+        {
+            if (coll.gameObject.tag == "Player" && this.Moving == false)
+            {
+                StartCoroutine(MoveShell(coll));
+            }
+        }
+        if (coll.gameObject.tag == "Player" && this.Moving)
+        {
+            switch (PlayerController.PlayerState)
+            {
+                case 1:
+                    PlayerController.PlayerState = 0;
+                    break;
+                case 2:
+                    PlayerController.PlayerState = 1;
+                    break;
+                default:
+                    Destroy(coll.gameObject);
+                    Debug.Log("You just lost a life");
+                    break;
+            }
+        }
     }
 }
