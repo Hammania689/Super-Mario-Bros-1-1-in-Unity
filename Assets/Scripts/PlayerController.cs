@@ -7,78 +7,47 @@ public class PlayerController : MonoBehaviour
     public float height = 5f;
     public static int PlayerState;
     public bool grounded = false;
-    public Color BaseColor;
-    public Color FPowerColor;
-
-
+    Animator anim;
+    bool movingRight;
     Rigidbody2D rb;
-    Renderer pc;
 
     void Start()
     {
         //Baseline State for the player
         PlayerState = 0;
-
-        // Sets Rigidbody component to rb
         rb = GetComponent<Rigidbody2D>();
-
-        //Sets Renderer component to pc
-        pc = gameObject.GetComponent<Renderer>() ;
+        anim = GetComponent<Animator>();
     }
 
-    void State()
+    void Update()
     {
-        if(PlayerState == 0)
-        {
-            pc.material.color = BaseColor;
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        }
-
-        if(PlayerState == 1)
-        {
-             pc.material.color = BaseColor;
-            transform.localScale = new Vector3(1f, 1.5f, 1f);
-        }
-
-        if(PlayerState == 2)
-        {
-            pc.material.color = FPowerColor;
-        }
-
+        anim.SetBool("movingRight", movingRight);
     }
 	
 	void FixedUpdate ()
     {
-	    if(Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D)))
-        { transform.Translate(Vector3.right * speed * Time.fixedDeltaTime); }
-
-        if(Input.GetKey(KeyCode.LeftArrow) || (Input.GetKey(KeyCode.A)))
-        { transform.Translate(Vector3.left * speed * Time.fixedDeltaTime); }
-
-        if (Input.GetKeyDown(KeyCode.UpArrow)  || (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.Space))))
+        if (Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D)))
         {
-            if(grounded == true)
-            {  rb.velocity = new Vector2 (0f, height); }   
+            transform.Translate(Vector3.right * speed * Time.fixedDeltaTime);
+            movingRight = true;
         }
-
-        State();
+        else movingRight = false;
+        if(Input.GetKey(KeyCode.LeftArrow) || (Input.GetKey(KeyCode.A)))
+            transform.Translate(Vector3.left * speed * Time.fixedDeltaTime); 
+        if (Input.GetKeyDown(KeyCode.UpArrow)  || (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.Space))))
+            if(grounded == true)
+             rb.velocity = new Vector2 (0f, height); 
     }
 
-    void OnTriggerEnter2D( Collider2D other)
+    void OnTriggerStay2D( Collider2D other)
     {
         if(other.gameObject.tag == "Ground" || other.gameObject.tag == "Enemy")
-        {
             grounded = true;
-        }
-
-
     }
 
     void OnTriggerExit2D( Collider2D other)
     {
         if (other.gameObject.tag == "Ground" || other.gameObject.tag == "Enemy")
-        {
             grounded = false;
-        }
     }
 }
