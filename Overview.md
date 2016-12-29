@@ -1,16 +1,15 @@
 # Super Mario Bros World 1-1 Tutorial in Unity
-	ecreation of the World 1 Stage 1 in Unity using C#
-
-	https://www.youtube.com/watch?v=vgq0n_68uMc&list=PLDj1WczptC7gdLlrP7j8cfVy-kTn2sHDJ
-
+Recreation of the World 1 Stage 1 in Unity using C#
+	
 ### YouTube Tutorial Done Right
 
-	Thank you for showing your interest. Hopefully these tutorials will help us both in Unity :)
+Thank you for showing your interest. Hopefully these tutorials will help us both in Unity :)
 
 # Tutorial Overview (Tutorial 9 and On)
 			
-	Bear with me the early tutorials are inconsistent and vary in quality so lets skip to the good stuff
-
+Bear with me the early tutorials are inconsistent and vary in quality so lets skip to the good stuff
+##### All Tutorials So Far
+	https://www.youtube.com/watch?v=vgq0n_68uMc&list=PLDj1WczptC7gdLlrP7j8cfVy-kTn2sHDJ
 
 
 ### Tutorial 13 
