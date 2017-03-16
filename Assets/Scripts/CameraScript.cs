@@ -3,25 +3,22 @@ using System.Collections;
 
 public class CameraScript : MonoBehaviour
 {
-    public Transform player;
-    public GameObject LevelStart;
-    public GameObject LevelEnd;
-    float CamPos;
-    float min;
-    float max;
+    public Transform playerPos;
+    public Transform rightCamBoundary;
+    public Transform levelEnd;
 
-	// Use this for initialization
-	void Start ()
+    Vector3 velocity = Vector3.zero;
+    Vector3 destination;
+
+    private void Start()
     {
-        min = LevelStart.transform.position.x + 12.7f;
-        max = LevelEnd.transform.position.x - 12.7f;
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        destination = Vector3.ClampMagnitude(levelEnd.position, 28.8f);
+        destination = new Vector3(destination.x, destination.y, -10f);
+    }
+
+    private void FixedUpdate()
     {
-        //The camera's x position is following the player and add space for the player to see what's coming next
-        CamPos = player.transform.position.x + 7.6f;
-        gameObject.transform.position = new Vector3(Mathf.Clamp(CamPos, min, max), gameObject.transform.position.y, gameObject.transform.position.z);
-	}
+        if (Vector3.Distance(playerPos.position, rightCamBoundary.position) < 14.5)
+            transform.position = Vector3.SmoothDamp(transform.position, destination, ref velocity, 0.14f, 8.5f);
+    }
 }
