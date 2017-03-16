@@ -4,6 +4,14 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public static int PlayerState;
+    /// <summary>
+    /// 
+    /// 
+    /// </summary>
+    public AudioClip jumpSound;
+
+    //
+    AudioSource sfzEffect;
 
     Animator anim;
     bool movingRight, movingLeft, walking, jumped,
@@ -18,12 +26,23 @@ public class PlayerController : MonoBehaviour
         PlayerState = 0;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        //
+        //
+        //
+        sfzEffect = GetComponent<AudioSource>();
+        sfzEffect.clip = jumpSound;
     }
 
     void Update()
     {
         anim.SetBool("movingRight", movingRight);
         State();
+        //
+        //
+        //
+        if(Pause.gamePaused == true)
+            speed = 0;
     }
 	
 	void FixedUpdate ()
@@ -81,9 +100,15 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        //
+        //
+        //
         if (Input.GetKey(KeyCode.UpArrow) || (Input.GetKey(KeyCode.W) || (Input.GetKey(KeyCode.Space))))
             if (grounded == true)
-            rb.velocity = new Vector2(rb.velocity.x, height);
+            {
+                rb.velocity = new Vector2(rb.velocity.x, height);
+                sfzEffect.Play();
+            }
 
         if (jumping == true && jumped == true)
             rb.gravityScale -= (.1f * Time.fixedDeltaTime);
