@@ -4,13 +4,11 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public static int PlayerState;
-    /// <summary>
-    /// 
-    /// 
-    /// </summary>
-    public AudioClip jumpSound;
 
-    //
+    [SerializeField] AudioClip defaultJumpSfx;
+    [SerializeField] AudioClip bigJumpSfx;
+    [SerializeField] AudioClip coinSfx;
+
     AudioSource sfzEffect;
 
     Animator anim;
@@ -27,11 +25,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
-        //
-        //
-        //
         sfzEffect = GetComponent<AudioSource>();
-        sfzEffect.clip = jumpSound;
     }
 
     void Update()
@@ -100,14 +94,15 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        //
-        //
-        //
         if (Input.GetKey(KeyCode.UpArrow) || (Input.GetKey(KeyCode.W) || (Input.GetKey(KeyCode.Space))))
             if (grounded == true)
             {
                 rb.velocity = new Vector2(rb.velocity.x, height);
-                sfzEffect.Play();
+
+                if (PlayerState == 0)
+                    sfzEffect.PlayOneShot(defaultJumpSfx);
+                else
+                    sfzEffect.PlayOneShot(bigJumpSfx);
             }
 
         if (jumping == true && jumped == true)
@@ -128,6 +123,12 @@ public class PlayerController : MonoBehaviour
             jumpTime = 0f;
             rb.gravityScale = 1;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Coin")
+            sfzEffect.PlayOneShot(coinSfx);
     }
 
     void OnTriggerExit2D( Collider2D other)

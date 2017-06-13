@@ -10,5 +10,4 @@ public class Coin : MonoBehaviour
         ScoreManager.score += CoinValue;
         Destroy(gameObject);
     }
-
 }
