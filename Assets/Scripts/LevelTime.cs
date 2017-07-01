@@ -17,6 +17,5 @@ public class LevelTime : MonoBehaviour
     {
         levelTime -= Time.deltaTime;
         text.text = "Time \n" + (int) levelTime;
-        print(levelTime);
     }
 }
