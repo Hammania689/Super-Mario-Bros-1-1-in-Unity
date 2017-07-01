@@ -5,11 +5,10 @@ public class PlayerController : MonoBehaviour
 {
     public static int PlayerState;
 
+    [SerializeField] SoundFxManager sfx;
     [SerializeField] AudioClip defaultJumpSfx;
     [SerializeField] AudioClip bigJumpSfx;
     [SerializeField] AudioClip coinSfx;
-
-    AudioSource sfzEffect;
 
     Animator anim;
     bool movingRight, movingLeft, walking, jumped,
@@ -24,8 +23,6 @@ public class PlayerController : MonoBehaviour
         PlayerState = 0;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-
-        sfzEffect = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -100,9 +97,9 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, height);
 
                 if (PlayerState == 0)
-                    sfzEffect.PlayOneShot(defaultJumpSfx);
+                    sfx.PlaySoundFX(defaultJumpSfx);
                 else
-                    sfzEffect.PlayOneShot(bigJumpSfx);
+                    sfx.PlaySoundFX(bigJumpSfx);
             }
 
         if (jumping == true && jumped == true)
@@ -128,7 +125,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Coin")
-            sfzEffect.PlayOneShot(coinSfx);
+            sfx.PlaySoundFX(coinSfx);
     }
 
     void OnTriggerExit2D( Collider2D other)
